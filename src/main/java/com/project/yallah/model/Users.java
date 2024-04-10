@@ -33,6 +33,7 @@ public class Users {
     @Column
     @NotBlank(message = "Password is mandatory")
     private String password;
-    private String role;
 
+    public Users(String name, String email, String password) {
+    }
 }
