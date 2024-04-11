@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,7 +21,7 @@ public class TokenService {
         this.encoder = encoder;
     }
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication, UUID id) {
         Instant now = Instant.now();
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -29,7 +30,7 @@ public class TokenService {
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(1, ChronoUnit.HOURS))
-                .subject(authentication.getName())
+                .subject(id.toString())
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

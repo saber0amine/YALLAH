@@ -8,7 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,17 +28,7 @@ public class AuthController {
         this.authService = authService;
         this.tokenService = tokenService;
     }
- @PostMapping("/token")
-public String token(Authentication authentication) {
-    if (authentication == null) {
-        LOG.error("Authentication object is null");
-        return "Authentication failed";
-    }
-    LOG.debug("Token requested for user: '{}'", authentication.getName());
-    String token = tokenService.generateToken(authentication);
-    LOG.debug("Token granted: {}", token);
-    return token;
-}
+
     @GetMapping("/")
     public String index() {
         return "Welcome to Yallah";
@@ -60,5 +51,10 @@ public String token(Authentication authentication) {
         return ResponseEntity.ok("You have accessed a protected resource!");
     }
 
+    @GetMapping("/getUser")
+    public ResponseEntity<String> testJwtInfo (@AuthenticationPrincipal Jwt jwt) {
+        String userId = jwt.getSubject();
+        return ResponseEntity.ok("User ID: " + userId);
+    }
 
 }
