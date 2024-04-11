@@ -10,6 +10,7 @@ import java.util.UUID;
 @Data
 @Table
 @Entity
+@Inheritance(strategy =  InheritanceType.JOINED)
 public class Users {
 
     @Id

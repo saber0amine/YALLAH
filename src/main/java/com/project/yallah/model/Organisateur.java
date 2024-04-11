@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+@Entity
 public class Organisateur extends Users{
     @OneToMany(mappedBy = "organisateur_users"  , cascade = CascadeType.REMOVE)
     List<Activity> activities ;
@@ -32,4 +33,7 @@ public class Organisateur extends Users{
     }
 
 
+    public Organisateur() {
+
+    }
 }
