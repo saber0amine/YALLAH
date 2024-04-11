@@ -45,7 +45,7 @@ public String token(Authentication authentication) {
 
     @PostMapping("/register")
     public String login(@RequestBody Users loginRequest) {
-         return this.authService.register(loginRequest.getName() , loginRequest.getEmail()  , loginRequest.getPassword())  ;
+         return this.authService.register( loginRequest.getEmail()   ,loginRequest.getName() , loginRequest.getPassword())  ;
     }
 
         @PostMapping("/signup")

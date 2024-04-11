@@ -29,8 +29,7 @@ public class AuthService {
     }
 
     public String register(String name, String email , String password ) {
-        LOG.debug("Registering user: {}", name);
-
+        LOG.debug("Registering user: {}, email: {}, password: {}", name, email, password);
         this.usersRepository.save(new Users(name , email , password)  );
         Authentication authentication = new UsernamePasswordAuthenticationToken(name, password);
         String token  = tokenService.generateToken(authentication);

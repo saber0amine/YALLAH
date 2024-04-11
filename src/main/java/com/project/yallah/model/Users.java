@@ -11,13 +11,8 @@ import java.util.UUID;
 @Entity
 public class Users {
 
-    public Users(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
 
     public Users() {
-
     }
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,6 +29,10 @@ public class Users {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-    public Users(String name, String email, String password) {
+    public Users( String email , String name, String password) {
+             this.name = name;
+            this.email = email;
+            this.password = password;
+        }
     }
-}
+
