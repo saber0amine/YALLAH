@@ -1,4 +1,4 @@
 package com.project.yallah.model;
 
-public class Admins {
+public class Admins extends Users{
 }

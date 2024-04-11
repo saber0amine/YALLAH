@@ -12,9 +12,6 @@ import java.util.UUID;
 @Entity
 public class Users {
 
-
-    public Users() {
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -22,6 +19,7 @@ public class Users {
     @Column
     @NotBlank(message = "Name is mandatory")
     private String name;
+
     @Column
     @NotBlank(message = "Email is mandatory")
     private String email;
@@ -31,12 +29,21 @@ public class Users {
     private String password;
 
     @Lob
-    @Column(name = "ProfilePicture"   , columnDefinition = "MEDIUMBLOB")
+    @Column(name = "UserPicture"   , columnDefinition = "MEDIUMBLOB")
     private byte[] profilePicture ;
 
-    @OneToMany(mappedBy = "users"  , cascade = CascadeType.REMOVE)
-    List<Activity> activities ;
+    @OneToMany(mappedBy = "normal_users"  , cascade = CascadeType.REMOVE)
+    List<Activity> bookedActivities ;
 
+    // ADMIN , USER , ORGANISATEUR
+    @Enumerated(EnumType.STRING)
+    private  UserRole role ;
+
+
+
+
+    public Users() {
+    }
     public Users( String email , String name, String password) {
              this.name = name;
             this.email = email;

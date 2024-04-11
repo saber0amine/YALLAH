@@ -4,11 +4,11 @@ package com.project.yallah.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
 
 @Entity
 @Data
@@ -40,7 +40,7 @@ public class Activity {
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime dateOfEnd;
 
-private Instant duration ;
+   private Instant duration ;
 
     private Long price;
     private int capacity;
@@ -48,8 +48,14 @@ private Instant duration ;
     @Lob
     @Column(name = "ActivityImages" , columnDefinition = "MEDIUMBLOB")
     private List<byte[]> ActivityImages;
-    private String category;
+
+    @Enumerated(EnumType.STRING)
+    private ActivityCategorie activityCategorie;
     private int age;
+
+    // ACCEPTED OR REJECTED , PENDING FROM THE ADMIN
+    @Enumerated(EnumType.STRING)
+    private ActivityStatus status ;
 
 
 
