@@ -33,7 +33,7 @@ public class Users {
     @Column(name = "UserPicture"   , columnDefinition = "MEDIUMBLOB")
     private byte[] profilePicture ;
 
-    @OneToMany(mappedBy = "normal_users"  , cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "bookedUsers"  , cascade = CascadeType.REMOVE)
     List<Activity> bookedActivities ;
 
     // ADMIN , USER , ORGANISATEUR
