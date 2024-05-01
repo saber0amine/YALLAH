@@ -35,14 +35,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String login(@RequestBody Users loginRequest) {
+    public String registerConroller(@RequestBody Users loginRequest) {
          return this.authService.register( loginRequest.getEmail()   ,loginRequest.getName() , loginRequest.getPassword())  ;
     }
 
         @PostMapping("/signup")
-        public String signup() {
-             authService.signup();
-             return  "User created successfully" ;
+        public String loginController(@RequestBody Users loginRequest) {
+             return authService.login(loginRequest.getEmail() ,  loginRequest.getPassword()  )  ;
+
     }
 
     @GetMapping("/api/protected")

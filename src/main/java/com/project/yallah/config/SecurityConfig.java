@@ -38,7 +38,7 @@ public class SecurityConfig  {
  public SecurityFilterChain securityFilterChain(HttpSecurity http ) throws Exception{
   http.csrf(csrf->csrf.disable()).authorizeRequests(authorizeRequests ->
                   authorizeRequests
-                          .requestMatchers("/register" , "/signup" ).permitAll()
+                          .requestMatchers("/register" , "/signup"  , "/organisateur/**").permitAll()
                           .anyRequest().authenticated()
           ).oauth2ResourceServer((oauth2) -> oauth2
                   .jwt(Customizer.withDefaults())
@@ -53,6 +53,7 @@ return http.build() ;
  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)  throws Exception {
   return authenticationConfiguration.getAuthenticationManager();
  }
+
 
 
 

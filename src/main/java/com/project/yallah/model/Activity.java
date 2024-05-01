@@ -55,7 +55,11 @@ private  Users bookedUsers ;
 
     @Enumerated(EnumType.STRING)
     private ActivityCategorie activityCategorie;
-    private int age;
+
+    // MAX and Min ages
+    private int Maxage;
+    private int Minage;
+
 
     // ACCEPTED OR REJECTED , PENDING FROM THE ADMIN
     @Enumerated(EnumType.STRING)

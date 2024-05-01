@@ -29,7 +29,12 @@ public class AuthService {
         this.passwordEncoder=passwordEncoder;
     }
 
-    public void signup() {
+    public String login(String email  , String passwrod) {
+        if ( usersRepository.findByEmailAndPassword(email , passwrod) == false) {
+            return "Invalid email or password" ;
+        }
+else  return "Login successful" ;
+
     }
 
     public String register(String name, String email , String password ) {
