@@ -1,4 +1,4 @@
-package com.project.yallah.security;
+package com.project.yallah.service;
 
 import java.util.Collection;
 
@@ -21,8 +21,8 @@ public class UserDetailsServiceImp implements UserDetailsService{
     private UsersRepository userRepository ;
 
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        Users user = (Users) userRepository.findByName(name).orElseThrow( () -> new UsernameNotFoundException("No user found" + name ) ) ;
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Users user = (Users) userRepository.findByEmail(email);
         // returning userDetail object ( is a regular user )  ---> from this vd :  https://youtu.be/q3gT4198RKU
         return new org.springframework.security.core.userdetails.User(user.getName(),
                 user.getPassword(),
@@ -32,4 +32,5 @@ public class UserDetailsServiceImp implements UserDetailsService{
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
         return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
+
 }

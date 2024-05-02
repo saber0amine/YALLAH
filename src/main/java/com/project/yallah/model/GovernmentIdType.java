@@ -1,7 +1,6 @@
 package com.project.yallah.model;
 
 public enum GovernmentIdType {
-    DRIVERS_LICENSE,
-    PASSPORT ,
+     PASSPORT ,
     IDENTITY_CARD
 }

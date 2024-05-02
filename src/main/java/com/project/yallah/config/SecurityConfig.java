@@ -36,9 +36,9 @@ public class SecurityConfig  {
  }
  @Bean
  public SecurityFilterChain securityFilterChain(HttpSecurity http ) throws Exception{
-  http.csrf(csrf->csrf.disable()).authorizeRequests(authorizeRequests ->
+  http.csrf(csrf->csrf.disable()).authorizeHttpRequests(authorizeRequests ->
                   authorizeRequests
-                          .requestMatchers("/register" , "/signup"  , "/organisateur/**").permitAll()
+                          .requestMatchers("/" , "register" , "login"  ).permitAll()
                           .anyRequest().authenticated()
           ).oauth2ResourceServer((oauth2) -> oauth2
                   .jwt(Customizer.withDefaults())

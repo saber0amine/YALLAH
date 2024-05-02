@@ -23,7 +23,7 @@ public class Activity {
 
     @ManyToOne
     @JoinColumn(name = "organisteur_id")
-    private Organisateur organisteur ;
+    private Users user ;
 
 @ManyToOne
 @JoinColumn(name = "bookedUsers_id")

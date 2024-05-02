@@ -45,10 +45,31 @@ public class Users {
 
     public Users() {
     }
-    public Users( String email , String name, String password) {
+    public Users(  String name, String email , String password) {
              this.name = name;
             this.email = email;
             this.password = password;
         }
+
+
+        /************************************************************************************************************************************************/
+        // Organisateur Attributes  :
+        @OneToMany(mappedBy = "user"  , cascade = CascadeType.REMOVE)
+        List<Activity> activities ;
+
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(Activity activity) {
+        this.activities.add(activity);
+    }
+
+    @Enumerated(EnumType.STRING)
+    private  GovernmentIdType governmentIdType  ;
+
+    @Lob
+    @Column(name = "IdentityPicture", columnDefinition = "MEDIUMBLOB")
+    private byte[] IdentityPicture;
     }
 
