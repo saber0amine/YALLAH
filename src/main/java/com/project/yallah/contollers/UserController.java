@@ -35,14 +35,28 @@ public class UserController {
     //@PreAuthorize("hasAnyAuthority('ROLE_ORGANISATEUR')")
 public ResponseEntity<String> bookActivity(@PathVariable UUID id) throws ParseException {
         Users user =  authenticatedUser.getAuthenticatedUser() ;
-    if (user.getRole()== UserRole.ROLE_ORGANISATEUR)  {
+    if (user!= null)  {
         Boolean Res = userService.bookActivity(id , user);
         return ResponseEntity.ok("Activity booked successfully") ;
     }
 
-return ResponseEntity.ok(user.getRole().toString()) ;
+return ResponseEntity.ok("ERROR") ;
 
 }
+
+@DeleteMapping("/cancel-activity/{id}")
+public ResponseEntity<String> cancelActivity(@PathVariable UUID id) throws ParseException {
+    Users user =  authenticatedUser.getAuthenticatedUser() ;
+    if (user != null)  {
+        Boolean Res = userService.cancelActivity(id , user);
+        return ResponseEntity.ok("Activity canceled successfully") ;
+    }
+
+    return ResponseEntity.ok("ERROR") ;
+
+}
+
+
 
 
 
