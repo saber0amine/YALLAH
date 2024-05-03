@@ -34,12 +34,13 @@ public class AuthenticatedUser {
 public Users getAuthenticatedUser() throws ParseException {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     LOG.info("authentication: {} ", authentication);
-    if (authentication.getPrincipal() instanceof Jwt) {
+    if (authentication.getPrincipal() instanceof Jwt jwt) {
         LOG.info("getPrincipal: {} ", authentication.getPrincipal());
-        Jwt jwt = (Jwt) authentication.getPrincipal();
         LOG.info("jwt: {} ", jwt);
 
         String email = (String) jwt.getClaims().get("email");
+        String role  =(String) jwt.getClaims().get("scope");
+        LOG.info("ROLE OF THIS USER FROM getAuthentuicaTed METHOD USING JWT CLAIMS: {} ",role);
         Users user = userRepository.findByEmail(email);
         return user;
     } else {

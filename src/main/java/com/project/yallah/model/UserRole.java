@@ -1,7 +1,7 @@
 package com.project.yallah.model;
 
 public enum UserRole {
-    ADMIN ,
-    ORGANISATEUR ,
-    USER
+    ROLE_ADMIN,
+    ROLE_ORGANISATEUR,
+    ROLE_USER
 }

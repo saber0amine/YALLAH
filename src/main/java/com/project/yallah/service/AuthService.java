@@ -1,5 +1,6 @@
 package com.project.yallah.service;
 
+import com.project.yallah.model.UserRole;
 import com.project.yallah.model.Users;
 import com.project.yallah.repository.UsersRepository;
 import com.project.yallah.security.TokenService;
@@ -19,9 +20,9 @@ import java.util.regex.Pattern;
 public class AuthService {
 
     private final UsersRepository  usersRepository  ;
-     private   AuthenticationManager authenticationManager;
+     private final AuthenticationManager authenticationManager;
 
-     private PasswordEncoder passwordEncoder ;
+     private final PasswordEncoder passwordEncoder ;
     private static final Logger LOG = LoggerFactory.getLogger(AuthService.class);
 
      private final TokenService tokenService ;
@@ -78,10 +79,11 @@ public class AuthService {
              }
          else if (name.isBlank() || password.isEmpty() || email.isEmpty()  ) {
              return "Fill All Fields" ;
-         } else if (isValidEmail(email)  == false) {
+         } else if (!isValidEmail(email)) {
              return "Invalid Email" ;
          }
          Users user = new Users(name , email , passwordEncoder.encode(password)) ;
+         user.setRole(UserRole.ROLE_USER);
         usersRepository.save(user) ;
 
         return "User registered successfully" ;

@@ -22,13 +22,12 @@ public class UserDetailsServiceImp implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Users user = (Users) userRepository.findByEmail(email);
+        Users user = userRepository.findByEmail(email);
         // returning userDetail object ( is a regular user )  ---> from this vd :  https://youtu.be/q3gT4198RKU
         return new org.springframework.security.core.userdetails.User(user.getName(),
                 user.getPassword(),
                 true, true, true, true,
-                getAuthorities("ROLE_USER"));	}
-
+                getAuthorities(user.getRole().name()));	}
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
         return Collections.singletonList(new SimpleGrantedAuthority(role));
     }

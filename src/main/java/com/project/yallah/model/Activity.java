@@ -21,13 +21,14 @@ public class Activity {
     private String name;
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "organisteur_id")
-    private Users user ;
+    // ManyToMany relationship for being booked by users
+    @ManyToMany(mappedBy = "bookedActivities")
+    private List<Users> bookedUsers;
 
-@ManyToOne
-@JoinColumn(name = "bookedUsers_id")
-private  Users bookedUsers ;
+    // ManyToOne relationship for being managed by an organizer
+    @ManyToOne
+    @JoinColumn(name = "organizer_id")
+    private Users organizer;
 
     @Embedded
     private Location location;
@@ -70,4 +71,18 @@ private  Users bookedUsers ;
     public Activity() {
 
     }
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", location=" + location +
+                ", dateOfPublish=" + dateOfPublish +
+                ", dateOfStart=" + dateOfStart +
+                ", dateOfEnd=" + dateOfEnd +
+                '}';
+    }
+
+
 }

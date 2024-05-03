@@ -33,8 +33,18 @@ public class Users {
     @Column(name = "UserPicture"   , columnDefinition = "MEDIUMBLOB")
     private byte[] profilePicture ;
 
-    @OneToMany(mappedBy = "bookedUsers"  , cascade = CascadeType.REMOVE)
-    List<Activity> bookedActivities ;
+    /* A ManyToMany relationship for normal users booking activities.
+   This is represented by the bookedActivities field in the Users entity and the bookedUsers field in the Activity entity. */
+    @ManyToMany
+    @JoinTable(
+            name = "booked_activities",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "activity_id")
+    )
+    private List<Activity> bookedActivities;
+
+
+
 
     // ADMIN , USER , ORGANISATEUR
     @Enumerated(EnumType.STRING)
@@ -42,20 +52,12 @@ public class Users {
 
 
 
-
-    public Users() {
-    }
-    public Users(  String name, String email , String password) {
-             this.name = name;
-            this.email = email;
-            this.password = password;
-        }
-
-
         /************************************************************************************************************************************************/
         // Organisateur Attributes  :
-        @OneToMany(mappedBy = "user"  , cascade = CascadeType.REMOVE)
-        List<Activity> activities ;
+    /* A OneToMany relationship for organizers managing their own activities.
+    This is represented by the activities field in the Users entity and the user field in the Activity entity.  */
+        @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
+        private List<Activity> activities;
 
     public List<Activity> getActivities() {
         return activities;
@@ -65,11 +67,37 @@ public class Users {
         this.activities.add(activity);
     }
 
+    public void setBookedActivities(Activity activity) {
+        this.bookedActivities.add(activity);
+    }
+
     @Enumerated(EnumType.STRING)
     private  GovernmentIdType governmentIdType  ;
 
     @Lob
     @Column(name = "IdentityPicture", columnDefinition = "MEDIUMBLOB")
     private byte[] IdentityPicture;
+
+
+    public Users() {
     }
+    public Users(  String name, String email , String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", profilePicture=" + profilePicture +
+
+                '}';
+    }
+
+}
 

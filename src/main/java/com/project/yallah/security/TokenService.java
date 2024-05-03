@@ -64,11 +64,7 @@ public boolean validateToken(String token) {
         }
 
         // Check if the token has expired
-        if (jwt.getExpiresAt() != null && jwt.getExpiresAt().isBefore(Instant.now())) {
-            return false;
-        }
-
-        return true;
+        return jwt.getExpiresAt() == null || !jwt.getExpiresAt().isBefore(Instant.now());
     } catch (Exception e) {
         // If any exception occurs, return false
         return false;

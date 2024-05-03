@@ -20,7 +20,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
 
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
  private UserDetailsServiceImp  userDetailsServiceImp  ;
 
@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = header.substring(7);
             try {
                  if (tokenService.validateToken(token)) {
-                    JWT jwt =(com.nimbusds.jwt.JWT) tokenService.jwtDecoder(token);
+                    JWT jwt = tokenService.jwtDecoder(token);
                     UserDetails userDetails = userDetailsServiceImp.loadUserByUsername(jwt.getJWTClaimsSet().getStringClaim("email"));
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());

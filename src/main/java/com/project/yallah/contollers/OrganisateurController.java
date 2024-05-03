@@ -21,7 +21,7 @@ import java.util.UUID;
 @RestController
 public class OrganisateurController {
 
-private OrganisteurService organisteurService;
+private final OrganisteurService organisteurService;
 private UserDetailsServiceImp userDetailsServiceImp ;
 @Autowired
     public OrganisateurController(OrganisteurService organisteurService) {
@@ -48,10 +48,16 @@ return ResponseEntity.ok(activityRes);
 public ResponseEntity<String> SwitchToOrganinsateur(@RequestParam("governmentIdType") String governmentIdTypeStr, @RequestParam("IdentityPicture") MultipartFile file) throws ParseException, IOException {
     GovernmentIdType governmentIdType = GovernmentIdType.valueOf(governmentIdTypeStr);
     byte[] IdentityPicture = file.getBytes();
-    organisteurService.SwitchToOrganisateur(governmentIdType , IdentityPicture);
-    return ResponseEntity.ok("You have switched to Organisateur");
-}
 
+    Boolean Res  = organisteurService.SwitchToOrganisateur(governmentIdType , IdentityPicture);
+    if(Res){
+        return ResponseEntity.ok("You have switched to Organisateur");
+    }
+else  {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("You have not switched to Organisateur");
+
+}
+}
 
 
 

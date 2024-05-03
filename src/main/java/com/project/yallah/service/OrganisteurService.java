@@ -16,9 +16,9 @@ import java.util.UUID;
 @Service
 public class OrganisteurService {
 
-    private UsersRepository organisteurRepository ;
-    private ActiviyRepository activiyRepository ;
-    private AuthenticatedUser authenticatedUser ;
+    private final UsersRepository organisteurRepository ;
+    private final ActiviyRepository activiyRepository ;
+    private final AuthenticatedUser authenticatedUser ;
     private static final Logger LOG = LoggerFactory.getLogger(OrganisteurService.class);
 
     @Autowired
@@ -30,12 +30,10 @@ public class OrganisteurService {
     public Activity addActivity(Activity activity) {
         try{
             Users user =  authenticatedUser.getAuthenticatedUser() ;
-            if (user.getRole() == UserRole.ORGANISATEUR) {
+            if (user.getRole() == UserRole.ROLE_ORGANISATEUR) {
         Activity activityResponse = activity ;
         activityResponse.setStatus(ActivityStatus.valueOf("PENDING")) ;
-        activityResponse.setUser(user);
-        user.setActivities(activityResponse);
-        organisteurRepository.save(user);
+        activityResponse.setOrganizer(user);
         activityResponse=activiyRepository.save(activity);
         return activityResponse;
             }
@@ -58,7 +56,7 @@ public class OrganisteurService {
     }
 
 
-    public void SwitchToOrganisateur(GovernmentIdType governmentIdType, byte[] identityPicture) throws ParseException {
+    public Boolean SwitchToOrganisateur(GovernmentIdType governmentIdType, byte[] identityPicture) throws ParseException {
        try {
         Users user =  authenticatedUser.getAuthenticatedUser() ;
 
@@ -66,12 +64,12 @@ public class OrganisteurService {
        user.setGovernmentIdType(GovernmentIdType.PASSPORT);
         else   user.setGovernmentIdType(GovernmentIdType.IDENTITY_CARD);
         user.setIdentityPicture(identityPicture);
-       user.setRole(UserRole.ORGANISATEUR);
+       user.setRole(UserRole.ROLE_ORGANISATEUR);
          organisteurRepository.save(user);
-
+return true ;
        } catch (Exception e) {
            e.printStackTrace();
        }
-
+return false ;
     }
 }

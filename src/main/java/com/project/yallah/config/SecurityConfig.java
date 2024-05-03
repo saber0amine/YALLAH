@@ -7,12 +7,14 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.project.yallah.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
  import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,7 +30,7 @@ import static org.springframework.security.config.Customizer.*;
 
 @Configuration
  @EnableWebSecurity
-public class SecurityConfig  {
+ public class SecurityConfig  {
  private final RsaKeyProperties rsaKeys;
  @Autowired
  public SecurityConfig(RsaKeyProperties rsaKeys) {
@@ -38,7 +40,8 @@ public class SecurityConfig  {
  public SecurityFilterChain securityFilterChain(HttpSecurity http ) throws Exception{
   http.csrf(csrf->csrf.disable()).authorizeHttpRequests(authorizeRequests ->
                   authorizeRequests
-                          .requestMatchers("/" , "register" , "login" , "/swagger-ui/**"  , "/v3/api-docs" , "/swagger-ui/index.html/**" ).permitAll()
+                          .requestMatchers("/" , "/register" , "/login" , "/swagger-ui/**"  , "/v3/api-docs" , "/swagger-ui/index.html/**"  ).permitAll()
+                         // .requestMatchers("/book-activity").hasAnyAuthority("ROLE_ORGANISATEUR")
                           .anyRequest().authenticated()
           ).oauth2ResourceServer((oauth2) -> oauth2
                   .jwt(Customizer.withDefaults())
