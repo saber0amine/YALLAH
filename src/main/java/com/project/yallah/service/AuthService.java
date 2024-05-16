@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +41,7 @@ public class AuthService {
         Users user = usersRepository.findByEmail(email)  ;
         LOG.info("login user: {}  ", user);
 
-        if (user != null) {
+        if (user != null ) {
             LOG.info("Im here: {}  ", user);
 
             if ( !passwordEncoder.matches(passwrod, user.getPassword())) {
@@ -72,7 +73,7 @@ public class AuthService {
         return matcher.matches();
     }
 
-    public String register(String name, String email , String password ) {
+    public String register(String name, String email , String password, Date age, byte[] profilePicture) {
         LOG.info("Register request: {} {} {} ", email , name , password);
          if(usersRepository.findByEmail(email) != null) {
             return "Email already exists" ;
@@ -84,7 +85,9 @@ public class AuthService {
          }
          Users user = new Users(name , email , passwordEncoder.encode(password)) ;
          user.setRole(UserRole.ROLE_USER);
-        usersRepository.save(user) ;
+        user.setAge(age);
+        user.setProfilePicture(profilePicture);
+         usersRepository.save(user) ;
 
         return "User registered successfully" ;
     }

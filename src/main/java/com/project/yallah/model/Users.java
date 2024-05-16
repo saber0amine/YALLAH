@@ -1,16 +1,19 @@
 package com.project.yallah.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Data
 @Table
 @Entity
-@Inheritance(strategy =  InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Users {
 
     @Id
@@ -33,9 +36,13 @@ public class Users {
     @Column(name = "UserPicture"   , columnDefinition = "MEDIUMBLOB")
     private byte[] profilePicture ;
 
+    @Column
+    private Date age;
+
     /* A ManyToMany relationship for normal users booking activities.
    This is represented by the bookedActivities field in the Users entity and the bookedUsers field in the Activity entity. */
-    @ManyToMany
+ // @JsonManagedReference("user-Bookedactivity")
+     @ManyToMany
     @JoinTable(
             name = "booked_activities",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -56,6 +63,7 @@ public class Users {
         // Organisateur Attributes  :
     /* A OneToMany relationship for organizers managing their own activities.
     This is represented by the activities field in the Users entity and the user field in the Activity entity.  */
+       //@JsonBackReference("user-organizer")
         @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
         private List<Activity> activities;
 

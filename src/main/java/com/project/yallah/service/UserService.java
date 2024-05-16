@@ -50,7 +50,7 @@ if (activity != null) {
              Activity activity  =   activiyRepository.findById(id)
                      .orElseThrow(() -> new EntityNotFoundException("Activity not found with id " + id)) ;
          user.getBookedActivities().remove(activity);
-         LOG.info("ALL USERS  STILL IN the ACTIVITY " , activity. getBookedUsers()  ) ;
+         LOG.info("ALL USERS  STILL IN the ACTIVITY " , activity.getBookedUsers()  ) ;
          usersRepository.save(user) ;
                     return  true  ;
          }

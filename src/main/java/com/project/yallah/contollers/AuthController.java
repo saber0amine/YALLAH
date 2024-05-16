@@ -1,6 +1,7 @@
 package com.project.yallah.contollers;
 
 
+import com.project.yallah.dto.UserRegistrationRequest;
 import com.project.yallah.model.Users;
 import com.project.yallah.service.AuthService;
 import com.project.yallah.security.TokenService;
@@ -40,24 +41,37 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerConroller(@RequestBody Users loginRequest) {
+    public ResponseEntity<String> registerController(@RequestBody UserRegistrationRequest loginRequest) {
         LOG.info("Login request: {}", loginRequest);
-        Response = authService.register(   loginRequest.getName() , loginRequest.getEmail() , loginRequest.getPassword())  ;
-            return ResponseEntity.ok(Response);
+        String responseMessage = authService.register(loginRequest.getName(), loginRequest.getEmail(), loginRequest.getPassword() , loginRequest.getAge() , loginRequest.getProfilePicture());
+        if (responseMessage.equals("User registered successfully")) {
+            return ResponseEntity.ok(responseMessage);
+        } else if (responseMessage.equals("Email already exists")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMessage);
+        } else if (responseMessage.equals("Fill All Fields") || responseMessage.equals("Invalid Email")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMessage);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+        }
     }
 
- @PostMapping("/login")
-public ResponseEntity<String> loginController(@RequestBody Users loginRequest, HttpServletResponse response) {
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginController(@RequestBody Users loginRequest) {
         LOG.info("Login request: {}", loginRequest);
-    String jwt = authService.login(loginRequest.getEmail(), loginRequest.getPassword());
-    if (jwt.startsWith("Invalid")) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jwt);
-    } else {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + jwt);
-        return new ResponseEntity<>(jwt, headers, HttpStatus.OK);
+
+         String jwt = authService.login(loginRequest.getEmail(), loginRequest.getPassword());
+
+         if (jwt.startsWith("Invalid")) {
+             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jwt);
+        } else if (jwt.startsWith("You should Register First")) {
+             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(jwt);
+        } else {
+             HttpHeaders headers = new HttpHeaders();
+            headers.add("Authorization", "Bearer " + jwt);
+            return new ResponseEntity<>(jwt, headers, HttpStatus.OK);
+        }
     }
-}
 
 
 

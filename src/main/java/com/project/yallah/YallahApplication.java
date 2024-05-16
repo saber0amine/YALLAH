@@ -11,3 +11,4 @@ public class YallahApplication {
     }
 
 }
+//API DOC : http://192.168.1.142:8080/swagger-ui/index.html#/user-controller/bookActivity
